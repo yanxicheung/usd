@@ -8,6 +8,8 @@ struct Dollar
     Dollar(WORD32 amount);
     bool operator==(const Dollar&rhs);
     bool operator!=(const Dollar&rhs);
+    Dollar operator+(const Dollar&rhs);
+    Dollar operator-(const Dollar&rhs);
 private:
     WORD32 amount;
 };
