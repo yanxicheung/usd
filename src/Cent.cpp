@@ -11,6 +11,29 @@ namespace
         return std::to_string(amount) + "￠";
     }
 
+    string construct(const string& dolar, const string& cent)
+    {
+        string result;
+        if (!dolar.empty())
+        {
+            if (!cent.empty())
+            {
+                result = dolar + "," + cent;
+            }
+            else
+            {
+                result = dolar;
+            }
+        }
+        else
+        {
+            if (!cent.empty())
+            {
+                result = cent;
+            }
+        }
+        return result;
+    }
 }
 
 Cent::Cent(WORD32 amount)
@@ -30,31 +53,10 @@ std::string Cent::format1()
 
 std::string Cent::format2()
 {
-
     string dolar = Dollar(amount / 100).format2();
 
     const WORD16 centValue[] = { 50, 25, 10, 5, 1 };
     string cent = combine(getItems(amount % 100, centValue), format);
 
-    string result;
-    if (not dolar.empty())
-    {
-        if (not cent.empty())
-        {
-            result = dolar + "," + cent;
-        }
-        else
-        {
-            result = dolar;
-        }
-    }
-    else
-    {
-        if (not cent.empty())
-        {
-            result = cent;
-        }
-    }
-
-    return result;
+    return construct(dolar, cent);
 }
