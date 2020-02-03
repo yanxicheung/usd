@@ -1,25 +1,11 @@
 #include "Dollar.h"
+#include "BaseMacro.h"
 
 Dollar::Dollar(WORD32 amount):amount(amount)
 {
 }
 
-bool Dollar::operator ==(const Dollar& rhs)
+WORD32 Dollar::toBaseAmount() const
 {
-    return this->amount == rhs.amount;
-}
-
-bool Dollar::operator !=(const Dollar& rhs)
-{
-    return not this->operator ==(rhs);
-}
-
-Dollar Dollar::operator +(const Dollar& rhs)
-{
-    return Dollar(this->amount + rhs.amount);
-}
-
-Dollar Dollar::operator -(const Dollar& rhs)
-{
-    return Dollar(this->amount - rhs.amount);
+    return DOLLAR_TO_BASE*amount;
 }
