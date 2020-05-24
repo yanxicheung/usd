@@ -1,35 +1,35 @@
-CUR_DIR = $(shell pwd)
-SRC_DIR = ${CUR_DIR}/src
-TEST_DIR = ${CUR_DIR}/test
+SOURCE_DIRS = src test  #list
+INCLUDE_DIRS = include
 
-INC_DIR = -I${CUR_DIR}/include
+ALL_SOURCES = ${foreach dir,${SOURCE_DIRS},${wildcard ${dir}/*.cpp}}
+${info ${ALL_SOURCES}}  #打印调试信息
 
-SRC = $(wildcard ${SRC_DIR}/*.cpp  \
-                   ${TEST_DIR}/*.cpp ) 
+ALL_OBJS = ${ALL_SOURCES:.cpp=.o}
+${info ${ALL_OBJS}}
 
-OBJ = ${patsubst %.cpp,%.o,${SRC}}
+ALL_INCLUDES :=${foreach dir,${INCLUDE_DIRS},-I./${dir}}
+${info ${ALL_INCLUDES}}
 
 TARGET=main.out
 CXX=g++
-CXXFLAGS=${INC_DIR}
+CXXFLAGS=-std=c++11 -g -Wall -c
+GTEST=-lgtest -lpthread
 
-${TARGET}:${OBJ}
-	${CXX} ${OBJ} -o $@  -lgtest -lpthread
-	echo "Compile done."
+#使用@echo不会回显
+${TARGET}:${ALL_OBJS}
+	@echo Build demo_prj start...
+	${CXX} $^ -o $@ ${GTEST}
+	@echo Done
 
-$(OBJ):%.o:%.cpp
-	@echo "Compiling $< ==> $@"
-	${CXX} ${CXXFLAGS} -c $< -o $@
+${ALL_OBJS}:%.o:%.cpp
+	@echo "compile $<..."
+	${CXX} ${CXXFLAGS} ${ALL_INCLUDES} $< -o $@ ${GTEST}
 
-.PHONY:test
-test:
-	@echo ${INC_DIR}
-	@echo ${SRC_DIR}
-	@echo ${TEST_DIR}
-	@echo ${SRC}
-	@echo ${OBJ}
-
+#find 会递归查找;
+#rm前加@不会回显
 .PHONY:clean
 clean:
-	rm -rf ${OBJ}
-	rm -rf ${TARGET}
+	@rm -rf $(shell find ./ -name "*.o")
+	@rm -rf ${TARGET} 
+
+$(info makefile end)
