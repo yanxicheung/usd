@@ -51,3 +51,58 @@ A. $532 => 5\*$100，1\*$20，1\*$10，1\*$2
 B. 1030￠=> 1\*$10，1\*25￠，1\*5￠
 
 注意： dollar的符号在前，而cent的符号在后。
+
+
+
+# 工程构建
+
+使用Makefile管理工程构建：
+
+```makefile
+CUR_DIR = $(shell pwd)
+SRC_DIR = ${CUR_DIR}/src
+TEST_DIR = ${CUR_DIR}/test
+
+INC_DIR = -I${CUR_DIR}/include
+
+SRC = $(wildcard ${SRC_DIR}/*.cpp  \
+                   ${TEST_DIR}/*.cpp ) 
+
+OBJ = ${patsubst %.cpp,%.o,${SRC}}
+
+TARGET=main.out
+CXX=g++
+CXXFLAGS=${INC_DIR}
+
+${TARGET}:${OBJ}
+	${CXX} ${OBJ} -o $@  -lgtest -lpthread
+	echo "Compile done."
+
+$(OBJ):%.o:%.cpp
+	@echo "Compiling $< ==> $@"
+	${CXX} ${CXXFLAGS} -c $< -o $@
+
+.PHONY:test
+test:
+	@echo ${INC_DIR}
+	@echo ${SRC_DIR}
+	@echo ${TEST_DIR}
+	@echo ${SRC}
+	@echo ${OBJ}
+
+.PHONY:clean
+clean:
+	rm -rf ${OBJ}
+	rm -rf ${TARGET}
+```
+
+
+
+
+
+# Refrence:
+
+1. [demo_app](https://github.com/zhlan/demo_app)
+2. [makefile gtest gcov(lcov)](https://blog.csdn.net/lanzhihui_10086/article/details/85224073)
+3. [多目录makefile编写方法](https://blog.csdn.net/guoxiaojie_415/article/details/52206139)
+
