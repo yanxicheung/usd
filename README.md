@@ -145,4 +145,6 @@ $(info makefile end)
 1. [demo_app](https://github.com/zhlan/demo_app)
 2. [makefile gtest gcov(lcov)](https://blog.csdn.net/lanzhihui_10086/article/details/85224073)
 3. [多目录makefile编写方法](https://blog.csdn.net/guoxiaojie_415/article/details/52206139)
+4. [makefile之foreach函数](https://www.jianshu.com/p/4ba8929fbdb9)
+5. [Makefile中foreach函数使用方法](https://blog.csdn.net/yanlaifan/article/details/71402771)
 

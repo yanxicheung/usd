@@ -17,10 +17,11 @@ GTEST=-lgtest -lpthread
 
 #使用@echo不会回显
 ${TARGET}:${ALL_OBJS}
-	@echo Build demo_prj start...
+	@echo Build Project Start...
 	${CXX} $^ -o $@ ${GTEST}
 	@echo Done
 
+#这里会自动展开  $<可以替换为$^
 ${ALL_OBJS}:%.o:%.cpp
 	@echo "compile $<..."
 	${CXX} ${CXXFLAGS} ${ALL_INCLUDES} $< -o $@ ${GTEST}
